@@ -70,7 +70,7 @@ main { padding: 24px 32px 48px; min-width: 0; }
 .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-.chart svg { width: 100%; height: 240px; display: block; overflow: visible; }
+.chart svg { width: 100%; height: auto; aspect-ratio: 640 / 240; display: block; overflow: visible; }
 .chart .tick { font-size: 11.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
 .chart .col:hover rect.seg, .chart .col:focus rect.seg { filter: brightness(1.08); }
 .chart .col:focus { outline: none; }
