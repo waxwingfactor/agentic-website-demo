@@ -269,8 +269,8 @@
 
   function leads(root) {
     var L = state.data.leads;
-    root.appendChild(card('Leads', 'Scored 0–100 from company size, timeline, budget and service fit, then routed to a team. Click a row for details.', table(['Received', 'Contact', 'Service', 'Score', 'Routed to', 'Channel', 'Status'], L.map(function (l) {
-      return [when(l.createdAt), { main: l.name + (l.company ? ' · ' + l.company : ''), sub: l.email || l.phone }, SERVICES[l.service] || l.service || '—', h('span', null, tierBadge(l.tier), ' ' + l.score), TEAMS[l.team] || l.team, chan(l.channel), statusSelect(l, ['new', 'contacted', 'won', 'lost'])];
+    root.appendChild(card('Leads', 'Everyone who saved an enquiry or booked a call. Scored 0–100 from company size, timeline, budget and service fit, then routed to a team. Click a row for details.', table(['Received', 'Contact', 'Service', 'Score', 'Routed to', 'Channel', 'Status'], L.map(function (l) {
+      return [when(l.createdAt), { main: l.name + (l.company ? ' · ' + l.company : ''), sub: l.email || l.phone }, SERVICES[l.service] || l.service || '—', h('span', null, tierBadge(l.tier), ' ' + l.score), TEAMS[l.team] || l.team, chan(l.channel), statusSelect(l, ['new', 'booked', 'contacted', 'won', 'lost'])];
     }), function (i) { var l = L[i]; var det = l.details || {}; drawer('Lead · ' + l.name, l.ref + ' · ' + when(l.createdAt), [kv([['Company', l.company], ['Role', det.role], ['Email', l.email], ['Phone', l.phone], ['Company size', det.company_size], ['Service', SERVICES[l.service] || l.service], ['Timeline', det.timeline], ['Budget', det.budget_range], ['Prefers', det.preferred_contact], ['Score', l.score + ' (' + l.tier + ')'], ['Routed to', TEAMS[l.team] || l.team], ['Conversation', l.conversation_id]]), h('div', { class: 'section-title', text: 'What they need' }), h('p', { text: l.summary })]); })));
   }
   function meetings(root) {
@@ -288,7 +288,7 @@
   }
   function conversations(root) {
     var C = state.data.conversations;
-    root.appendChild(card('Conversations', 'Every finished chat and call, with Retell’s summary, outcome and measured cost. Click one for the transcript.', table(['Ended', 'Channel', 'Summary', 'Outcome', 'Length', 'Cost', 'Check'], C.map(function (c) {
+    root.appendChild(card('Conversations', 'Every finished chat and call, with Retell’s summary, outcome and measured cost. Chats appear about 3 minutes after the visitor stops typing, calls about a minute after they end. Click one for the transcript.', table(['Ended', 'Channel', 'Summary', 'Outcome', 'Length', 'Cost', 'Check'], C.map(function (c) {
       return [when(c.createdAt), chan(c.channel), { main: c.name ? c.name + (c.company ? ' · ' + c.company : '') : '', sub: c.summary }, OUTCOMES[c.tier] || c.tier || '—', num(c.channel === 'chat' ? c.score + ' msgs' : mins(c.duration_s)), num(money(c.cost_cents)), convBadge(c.status)];
     }), function (i) {
       var c = C[i], body = [];
