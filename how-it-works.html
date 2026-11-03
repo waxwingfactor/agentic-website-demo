@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How this demo works · Tidewell Consulting (demo)</title>
+<meta name="description" content="Architecture of the Tidewell agentic website demo.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,650&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+
+<script>window.TIDEWELL = {"publicKey":"public_key_83528e5e118f64de9748c","chatAgentId":"agent_e2953eaca8eac07a4e36b69609","voiceAgentId":"agent_92b39ca3a1e855667f4f72f65f","callbackPhone":"+15122702972","logoUrl":"https://waxwingfactor.github.io/agentic-website-demo/assets/logo.svg","loadWidget":true};</script>
+<script src="assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="demo-banner" id="demo-banner" role="region" aria-label="Demo notice">
+  <div class="wrap">
+    <span class="pill">Demo</span>
+    <span class="text"><strong>Tidewell Consulting is a fictional company.</strong> The AI chat, voice and callback agents on this site are live. <a href="how-it-works.html">How this demo works</a></span>
+    <button type="button" aria-label="Hide demo notice" data-dismiss-banner>&times;</button>
+  </div>
+</div>
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#0d5c5a"/><path d="M8 16.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#9fe0d6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 24.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>Tidewell</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#process">How we work</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="callback.html">Request a callback</a>
+    </nav>
+    <button type="button" class="btn btn-dark btn-sm header-cta" data-open-assistant="chat"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Book an intro call</button>
+    <button type="button" class="menu-btn" aria-label="Open menu" aria-expanded="false" data-menu><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">How this demo works</span>
+    <h1>An agentic website, end to end.</h1>
+    <p>This is a working sample built for a client brief: a business website whose AI assistant answers questions, qualifies enquiries, books meetings, sends follow-ups and hands over to people, across chat, browser voice and phone.</p>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="arch">
+      <div class="arch-col">
+        <h3>Visitor</h3>
+        <div class="node"><b>Website chat</b><span>Typed conversation in the site widget</span></div>
+        <div class="node"><b>Browser voice</b><span>Talks through the microphone, no phone needed</span></div>
+        <div class="node"><b>Phone callback</b><span>Enters a number; the assistant calls back</span></div>
+      </div>
+      <div class="arch-col">
+        <h3>AI layer (Retell AI)</h3>
+        <div class="node hl"><b>Chat agent + voice agent</b><span>Same rules for both: AI disclosure, approved knowledge only, confirm before every action, handover when stuck</span></div>
+        <div class="node"><b>Knowledge base</b><span>Services, prices, process, FAQs and policies, generated from the site's own content</span></div>
+        <div class="node"><b>Transcripts, recordings, analysis</b><span>Summary, sentiment and success flag for every conversation</span></div>
+      </div>
+      <div class="arch-col">
+        <h3>Business systems (n8n)</h3>
+        <div class="node"><b>Calendar</b><span>Live availability and bookings (Google Calendar)</span></div>
+        <div class="node"><b>CRM records</b><span>Leads, scores, routing, handover tickets</span></div>
+        <div class="node"><b>Email</b><span>Team alerts and visitor follow-ups</span></div>
+        <div class="node"><b>Admin dashboard</b><span>Leads, conversations, usage and cost</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-white">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">A booking, step by step</span><h2>What happens when someone books a call</h2></div>
+    <ol class="flow">
+      <li><span>The visitor asks for an intro call. The assistant calls <code>check_availability</code>, which reads the calendar and returns real free slots in the visitor's own time zone.</span></li>
+      <li><span>It collects name, email, company and topic one question at a time, then reads the details back and asks “Shall I go ahead?”</span></li>
+      <li><span>Only after a clear yes does it call <code>book_intro_call</code>. n8n re-checks the slot, creates the calendar event and verifies it, so two people can't take the same time.</span></li>
+      <li><span>n8n saves the meeting to the CRM records, alerts the right team by email and prepares the visitor's confirmation email.</span></li>
+      <li><span>The assistant reports the booking and its reference only after the workflow confirms it. If anything fails, it says so and offers a person.</span></li>
+      <li><span>When the conversation ends, Retell sends the transcript, summary and measured cost to the dashboard.</span></li>
+    </ol>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">Scope check</span><h2>What's live in this demo</h2><p>Mapped to the brief's scope of work. “Stand-in” means the demo uses a simpler tool in place of the client's own system.</p></div>
+    <div class="table-wrap"><table class="simple">
+      <thead><tr><th>Requirement</th><th>Status</th><th>How</th></tr></thead>
+      <tbody><tr><td>AI chat agent trained on company content</td><td class="ok">Live</td><td>Retell chat agent with a knowledge base generated from the same content file as this site</td></tr><tr><td>AI voice agent in the browser</td><td class="ok">Live</td><td>Retell web call from the site, using the same knowledge and tools</td></tr><tr><td>Phone callback</td><td class="ok">Live</td><td>Retell callback widget; dials US and Canadian numbers from a Retell number</td></tr><tr><td>Lead qualification and enquiry routing</td><td class="ok">Live</td><td>n8n scores each enquiry and routes it to a team by service</td></tr><tr><td>Meeting booking with confirmation</td><td class="ok">Live</td><td>Real slots from a Google Calendar; booked only after the visitor confirms</td></tr><tr><td>Follow-up emails</td><td class="ok">Live, with a demo guard</td><td>Visitor emails are written and shown in the dashboard outbox, not sent, so the demo never emails strangers. Team alerts are sent for real</td></tr><tr><td>Human handover</td><td class="ok">Live</td><td>Creates a handover ticket, alerts the team and gives the visitor a reply time. Live call transfer is configured per client</td></tr><tr><td>Admin dashboard</td><td class="ok">Live</td><td>Leads, meetings, handovers, conversations with transcripts and measured costs, the outbox, and the knowledge sources</td></tr><tr><td>CRM</td><td class="warn">Stand-in</td><td>An n8n Data Table plays the CRM here; a real build writes to the client's CRM (HubSpot, Pipedrive, Salesforce, Zoho…)</td></tr><tr><td>Content management</td><td class="warn">Stand-in</td><td>Here one content file feeds both the site and the agents; a real build puts that content in a CMS so non-developers can edit it</td></tr></tbody>
+    </table></div>
+  </div>
+</section>
+<section class="bg-white">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">Guardrails</span><h2>Built-in limits</h2></div>
+    <div class="svc-grid">
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/></svg></div><h3>Clear AI disclosure</h3><p>Every chat and call opens by saying it's an AI. Voice calls ask for recording consent and end if the caller declines.</p></article>
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></div><h3>Confirm before acting</h3><p>Bookings, saved enquiries, emails and handovers all need an explicit yes, and the workflows reject requests that weren't confirmed.</p></article>
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.3 7.5 9.5 4.4-1.2 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></div><h3>Approved knowledge only</h3><p>The assistant answers from approved content and says “I don't have that” rather than guessing. Prices are guides, never quotes.</p></article>
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20.5a7 7 0 0 1 14 0"/></svg></div><h3>Human handover</h3><p>On request, on complaints, or when it can't resolve something, it creates a ticket for the right team with a reply time.</p></article>
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div><h3>Data care</h3><p>No passwords, card numbers or health data. Transcripts are kept 30 days. Webhooks are authenticated and the dashboard needs an access key.</p></article>
+      <article class="svc"><div class="ico"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg></div><h3>Transparent costs</h3><p>Each conversation's provider cost is recorded and shown in the dashboard, so running costs are measured rather than estimated.</p></article>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#0d5c5a"/><path d="M8 16.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#9fe0d6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 24.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>Tidewell</span></a>
+      <p>Technology and operations consulting for growing companies.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="index.html#process">How we work</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="callback.html">Request a callback</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>AI &amp; privacy</h4>
+      <ul>
+        <li><a href="privacy.html">AI &amp; privacy notice</a></li>
+        <li><a href="how-it-works.html">How this demo works</a></li>
+        <li><a href="admin/">Team dashboard</a></li>
+      </ul>
+    </div>
+    <p class="fine">Demo website. Tidewell Consulting, its team, prices and client examples are fictional. Conversations with the AI assistant are real and are stored for 30 days. &copy; 2026</p>
+  </div>
+</footer>
+</body>
+</html>

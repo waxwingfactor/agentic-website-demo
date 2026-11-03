@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team dashboard · Tidewell (demo)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/admin.css">
+<script>window.TIDEWELL_ADMIN = {"enc":{"salt":"LC/PtNr9MpPQXmg7fQsrtA==","iv":"c6FfQCE/MiEJiNnZ","ct":"qjzvKp8yDVBAnEBCLkBki2WzOgLARNwyo0BzOTLVubaPNulQ5U6tWu4EjY/L457dsXQRWbig/HbWV4xxhSxdOFlnGzXGlRRGtUZivyzDtZmS7hZ/yDrUIg==","iter":210000}};</script>
+<script src="../assets/admin.js" defer></script>
+</head>
+<body>
+<section class="login" id="login">
+  <form class="login-card" id="login-form">
+    <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#0d5c5a"/><path d="M8 16.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#9fe0d6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 24.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>Tidewell</span></div>
+    <h1>Team dashboard</h1>
+    <p>Leads, meetings, handovers, conversations and AI costs from the website assistant.</p>
+    <div class="field"><label for="key">Access key</label><input id="key" type="password" autocomplete="current-password" required></div>
+    <p class="err" id="login-err" role="alert"></p>
+    <button class="btn" id="login-btn" type="submit">Sign in</button>
+    <p class="fine">Demo for a fictional company. The key is checked by the server, and the data contains only test conversations with the demo assistant.</p>
+  </form>
+</section>
+<div class="app hidden" id="app">
+  <nav class="side" aria-label="Dashboard sections">
+    <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#0d5c5a"/><path d="M8 16.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#9fe0d6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 24.5c3-3 6-3 9 0s6 3 9 0c2-2 4-2.4 6-1.2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>Tidewell<small>Team dashboard</small></span></div>
+    <div id="tabs" role="tablist" style="display:contents"></div>
+    <div class="spacer"></div>
+    <a class="back" href="../index.html">← Back to website</a>
+  </nav>
+  <main>
+    <div class="topbar">
+      <h1 id="title">Overview</h1>
+      <span class="meta" id="updated"></span>
+      <button class="btn ghost sm" id="refresh" type="button">Refresh</button>
+      <button class="btn ghost sm" id="signout" type="button">Sign out</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+</body>
+</html>
