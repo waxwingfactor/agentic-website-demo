@@ -142,6 +142,11 @@
     $('#title').textContent = title;
     var views = { overview: overview, leads: leads, meetings: meetings, handovers: handovers, conversations: conversations, outbox: outbox, knowledge: knowledge, usage: usage };
     views[state.tab](root);
+    // Fade the view's blocks up once, staggered by 70 ms (skipped when reduced motion is requested).
+    if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      [].forEach.call(root.children, function (c, i) { c.classList.add('reveal'); c.style.transitionDelay = (i * 70) + 'ms'; });
+      requestAnimationFrame(function () { requestAnimationFrame(function () { [].forEach.call(root.children, function (c) { c.classList.add('in'); }); }); });
+    }
   }
 
   function tile(label, value, sub) { return h('div', { class: 'tile' }, h('div', { class: 'label', text: label }), h('div', { class: 'value', text: value }), sub ? h('div', { class: 'sub', text: sub }) : null); }
@@ -235,7 +240,7 @@
       g.addEventListener('pointerenter', show); g.addEventListener('focus', show);
       g.addEventListener('pointerleave', function () { tip.classList.add('hidden'); }); g.addEventListener('blur', function () { tip.classList.add('hidden'); });
     });
-    el('line', { x1: L, x2: W - R, y1: y(0), y2: y(0), stroke: '#c9d1cf', 'stroke-width': 1 });
+    el('line', { x1: L, x2: W - R, y1: y(0), y2: y(0), stroke: 'var(--axis)', 'stroke-width': 1 });
     wrap.appendChild(s);
   }
 

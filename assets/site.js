@@ -6,7 +6,8 @@
   var hasAgents = !!(cfg.publicKey && cfg.chatAgentId && cfg.voiceAgentId);
   var tz = 'America/Chicago';
   try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
-  var BRAND = { theme: '#0b2530', accent: '#0d5c5a' };
+  // Slate tokens for the third-party widget (it can't read our CSS variables).
+  var BRAND = { theme: '#273449', accent: '#475569' };
 
   // ----- Demo banner -----
   var banner = document.getElementById('demo-banner');
@@ -34,11 +35,45 @@
   // ----- Status pill -----
   function setStatus(live, text) {
     document.querySelectorAll('[data-assistant-status]').forEach(function (el) {
-      el.classList.toggle('live', !!live);
+      var d = el.querySelector('.dot');
+      if (d) { d.classList.toggle('ok', !!live); d.classList.toggle('bad', !live); }
       var t = el.querySelector('[data-status-text]');
       if (t) t.textContent = text;
     });
   }
+
+  // ----- Office open/closed, computed from the published hours in the business time zone -----
+  (function officeStatus() {
+    var h = cfg.hours; if (!h) return;
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: cfg.timezone || 'America/Chicago', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+      var get = function (t) { return (parts.filter(function (p) { return p.type === t; })[0] || {}).value; };
+      var day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+      var mins = (Number(get('hour')) % 24) * 60 + Number(get('minute'));
+      var toMin = function (x) { var a = x.split(':'); return Number(a[0]) * 60 + Number(a[1]); };
+      var open = h.weekdays.indexOf(day) !== -1 && mins >= toMin(h.open) && mins < toMin(h.close);
+      document.querySelectorAll('[data-office-dot]').forEach(function (d) { d.classList.add(open ? 'ok' : 'warn'); });
+      document.querySelectorAll('[data-office-text]').forEach(function (t) { t.textContent = open ? 'Office open now (Mon–Fri 9–5 Central)' : 'Office closed now (Mon–Fri 9–5 Central). The assistant is available.'; });
+    } catch (e) {}
+  })();
+
+  // ----- Fade up once on first view, siblings staggered by 70 ms -----
+  (function reveal() {
+    var els = [].slice.call(document.querySelectorAll('.reveal'));
+    if (!els.length) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target, sibs = [].slice.call(el.parentNode.children).filter(function (c) { return c.classList.contains('reveal'); });
+        el.style.transitionDelay = (Math.max(0, sibs.indexOf(el)) * 70) + 'ms';
+        el.classList.add('in');
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
 
   function dynamicVars(entry) {
     return JSON.stringify({ visitor_timezone: tz, page_path: location.pathname.replace(/^.*\//, '/') || '/', entry: entry });
